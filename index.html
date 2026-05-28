@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeloRace — Tienda de Motovelocidad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Pantalla de inicio de sesión -->
+  <div id="pantalla-login" class="pantalla-overlay activa">
+    <div class="login-contenedor">
+      <div class="login-marca">
+        <span class="logo-icono">⚡</span>
+        <h1>VeloRace</h1>
+        <p>Tienda oficial de motovelocidad</p>
+      </div>
+      <form id="form-login" class="form-auth">
+        <h2>Iniciar sesión</h2>
+        <label for="login-usuario">Usuario o correo</label>
+        <input type="text" id="login-usuario" required placeholder="tu@email.com" autocomplete="username">
+        <label for="login-password">Contraseña</label>
+        <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
+        <p id="login-error" class="mensaje-error" hidden></p>
+        <button type="submit" class="btn btn-primario">Entrar</button>
+      </form>
+      <form id="form-registro" class="form-auth" hidden>
+        <h2>Crear cuenta</h2>
+        <label for="reg-nombre">Nombre completo</label>
+        <input type="text" id="reg-nombre" required placeholder="Juan Pérez">
+        <label for="reg-usuario">Usuario</label>
+        <input type="text" id="reg-usuario" required placeholder="juanp">
+        <label for="reg-email">Correo</label>
+        <input type="email" id="reg-email" required placeholder="tu@email.com">
+        <label for="reg-password">Contraseña</label>
+        <input type="password" id="reg-password" required minlength="6" placeholder="Mínimo 6 caracteres">
+        <p id="reg-error" class="mensaje-error" hidden></p>
+        <button type="submit" class="btn btn-primario">Registrarse</button>
+      </form>
+      <p class="auth-toggle">
+        <span id="texto-toggle">¿No tienes cuenta?</span>
+        <button type="button" id="btn-toggle-auth" class="btn-link">Regístrate aquí</button>
+      </p>
+      <p class="login-hint">Admin demo: <code>admin</code> / <code>admin123</code></p>
+    </div>
+  </div>
+
+  <!-- Aplicación principal -->
+  <div id="app" class="app" hidden>
+    <header class="header">
+      <div class="header-inner">
+        <a href="#" class="marca" data-nav="inicio">
+          <span class="logo-icono">⚡</span>
+          <span>VeloRace</span>
+        </a>
+        <nav class="nav-principal">
+          <button class="nav-btn activo" data-nav="inicio">Inicio</button>
+          <button class="nav-btn" data-nav="catalogo">Catálogo</button>
+          <button class="nav-btn" data-nav="carrito">
+            Carrito
+            <span id="badge-carrito" class="badge">0</span>
+          </button>
+          <button class="nav-btn nav-admin" data-nav="admin" hidden>Administración</button>
+        </nav>
+        <div class="header-usuario">
+          <span id="nombre-usuario" class="nombre-usuario"></span>
+          <span id="rol-badge" class="rol-badge"></span>
+          <button type="button" id="btn-cerrar-sesion" class="btn btn-secundario btn-sm">Salir</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Inicio -->
+      <section id="seccion-inicio" class="seccion activa">
+        <div class="hero">
+          <div class="hero-contenido">
+            <span class="etiqueta-hero">Motovelocidad profesional</span>
+            <h1>Todo para la pista.<br><span class="resaltado">Velocidad sin límites.</span></h1>
+            <p>Cascos, trajes, bicicletas de pista, componentes y accesorios para atletas de alto rendimiento.</p>
+            <button class="btn btn-primario btn-lg" data-nav="catalogo">Ver catálogo</button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><strong>150+</strong><span>Productos</span></div>
+            <div class="stat"><strong>24h</strong><span>Envío express</span></div>
+            <div class="stat"><strong>100%</strong><span>Homologados UCI</span></div>
+          </div>
+        </div>
+        <div class="destacados-titulo">
+          <h2>Productos destacados</h2>
+        </div>
+        <div id="grid-destacados" class="grid-productos"></div>
+      </section>
+
+      <!-- Catálogo -->
+      <section id="seccion-catalogo" class="seccion">
+        <div class="seccion-header">
+          <h2>Catálogo completo</h2>
+          <div class="filtros">
+            <input type="search" id="buscar-producto" placeholder="Buscar producto..." class="input-buscar">
+            <select id="filtro-categoria" class="select-filtro">
+              <option value="">Todas las categorías</option>
+              <option value="cascos">Cascos</option>
+              <option value="trajes">Trajes y ropa</option>
+              <option value="bicicletas">Bicicletas de pista</option>
+              <option value="componentes">Componentes</option>
+              <option value="accesorios">Accesorios</option>
+              <option value="calzado">Calzado</option>
+            </select>
+          </div>
+        </div>
+        <div id="grid-catalogo" class="grid-productos"></div>
+        <p id="sin-resultados" class="sin-resultados" hidden>No se encontraron productos.</p>
+      </section>
+
+      <!-- Carrito -->
+      <section id="seccion-carrito" class="seccion">
+        <div class="seccion-header">
+          <h2>Mi carrito</h2>
+          <button type="button" id="btn-vaciar-carrito" class="btn btn-secundario btn-sm">Vaciar carrito</button>
+        </div>
+        <div id="carrito-vacio" class="carrito-vacio">
+          <span class="icono-vacio">🛒</span>
+          <p>Tu carrito está vacío</p>
+          <button class="btn btn-primario" data-nav="catalogo">Ir al catálogo</button>
+        </div>
+        <div id="carrito-contenido" class="carrito-layout" hidden>
+          <div id="lista-carrito" class="lista-carrito"></div>
+          <aside class="carrito-resumen">
+            <h3>Resumen</h3>
+            <div class="resumen-linea"><span>Subtotal</span><span id="carrito-subtotal">$0.00</span></div>
+            <div class="resumen-linea"><span>Envío</span><span id="carrito-envio">$0.00</span></div>
+            <div class="resumen-linea total"><span>Total</span><span id="carrito-total">$0.00</span></div>
+            <button type="button" id="btn-checkout" class="btn btn-primario btn-block">Proceder al pago</button>
+            <p class="nota-checkout">* Simulación de compra — sin pago real</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Panel administrador -->
+      <section id="seccion-admin" class="seccion">
+        <div class="seccion-header">
+          <h2>Panel de administración</h2>
+          <p class="subtitulo">Gestiona el inventario de la tienda</p>
+        </div>
+        <div class="admin-layout">
+          <div class="admin-form-card">
+            <h3 id="titulo-form-producto">Agregar producto</h3>
+            <form id="form-producto">
+              <input type="hidden" id="producto-id">
+              <label for="prod-nombre">Nombre</label>
+              <input type="text" id="prod-nombre" required placeholder="Casco Aero Pro">
+              <label for="prod-descripcion">Descripción</label>
+              <textarea id="prod-descripcion" rows="3" required placeholder="Descripción del producto..."></textarea>
+              <div class="form-fila">
+                <div>
+                  <label for="prod-precio">Precio (COP)</label>
+                  <input type="number" id="prod-precio" required min="0" step="1" placeholder="199999">
+                </div>
+                <div>
+                  <label for="prod-stock">Stock</label>
+                  <input type="number" id="prod-stock" required min="0" placeholder="10">
+                </div>
+              </div>
+              <label for="prod-categoria">Categoría</label>
+              <select id="prod-categoria" required>
+                <option value="cascos">Cascos</option>
+                <option value="trajes">Trajes y ropa</option>
+                <option value="bicicletas">Bicicletas de pista</option>
+                <option value="componentes">Componentes</option>
+                <option value="accesorios">Accesorios</option>
+                <option value="calzado">Calzado</option>
+              </select>
+              <label for="prod-imagen">URL de imagen(es) (opcional; separa con coma)</label>
+              <input type="text" id="prod-imagen" placeholder="https://... , https://...">
+              <div class="form-acciones">
+                <button type="submit" class="btn btn-primario" id="btn-guardar-producto">Guardar producto</button>
+                <button type="button" class="btn btn-secundario" id="btn-cancelar-edicion" hidden>Cancelar</button>
+              </div>
+            </form>
+          </div>
+          <div class="admin-tabla-card">
+            <h3>Inventario (<span id="total-productos">0</span>)</h3>
+            <div class="tabla-wrapper">
+              <table class="tabla-admin">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-productos"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© 2026 VeloRace — Tienda de motovelocidad. Todos los derechos reservados.</p>
+    </footer>
+  </div>
+
+  <!-- Modal confirmación -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-contenido">
+      <p id="modal-mensaje"></p>
+      <button type="button" id="modal-cerrar" class="btn btn-primario">Aceptar</button>
+    </div>
+  </div>
+
+  <!-- Modal detalle de producto -->
+  <div id="modal-producto" class="modal-producto" hidden>
+    <div class="modal-contenido modal-contenido-producto" role="dialog" aria-modal="true">
+      <button type="button" id="modal-producto-cerrar" class="btn btn-secundario btn-sm">Cerrar</button>
+
+      <h2 id="modal-producto-titulo"></h2>
+
+      <div class="producto-galeria">
+        <div class="producto-imagen-principal">
+          <img id="modal-producto-imagen-principal" src="" alt="">
+          <div id="modal-producto-sin-imagen" class="producto-sin-imagen" hidden>Sin imagen</div>
+        </div>
+        <div id="modal-producto-thumbs" class="producto-thumbs"></div>
+      </div>
+
+      <p id="modal-producto-descripcion" class="producto-descripcion"></p>
+
+      <div class="producto-meta">
+        <div class="resumen-linea"><span>Precio</span><span id="modal-producto-precio">$0.00</span></div>
+        <div class="resumen-linea"><span>Stock</span><span id="modal-producto-stock">0</span></div>
+      </div>
+
+      <div class="producto-acciones">
+        <button type="button" id="modal-producto-agregar" class="btn btn-primario btn-block" disabled>Agregar al carrito</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
