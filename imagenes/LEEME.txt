@@ -1,0 +1,21 @@
+Carpeta de imágenes de VeloRace
+================================
+
+Coloca aquí las fotos que descargues (JPG, PNG o WEBP).
+
+Ejemplos de nombres sugeridos para los productos demo:
+  casco.jpg
+  traje.jpg
+  bicicleta.jpg
+  rueda.jpg
+  guantes.jpg
+  zapatillas.jpg
+
+En el panel de administración puedes escribir solo el nombre:
+  casco.jpg
+
+O la ruta completa:
+  imagenes/casco.jpg
+
+Varias fotos del mismo producto (separadas por coma):
+  casco.jpg, casco-lateral.jpg, casco-detalle.jpg
