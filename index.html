@@ -174,8 +174,13 @@
                 <option value="accesorios">Accesorios</option>
                 <option value="calzado">Calzado</option>
               </select>
-              <label for="prod-imagen">URL de imagen(es) (opcional; separa con coma)</label>
-              <input type="text" id="prod-imagen" placeholder="https://... , https://...">
+              <label for="prod-imagen">Imágenes locales (carpeta <code>imagenes/</code>)</label>
+              <input type="text" id="prod-imagen" placeholder="casco.jpg , casco-lateral.jpg">
+              <p class="campo-ayuda">
+                Descarga las fotos y guárdalas en la carpeta <code>imagenes/</code> de este proyecto.
+                Escribe el nombre del archivo o varios separados por coma. Ejemplo: <code>casco.jpg</code> o
+                <code>imagenes/casco.jpg, imagenes/casco-2.jpg</code>
+              </p>
               <div class="form-acciones">
                 <button type="submit" class="btn btn-primario" id="btn-guardar-producto">Guardar producto</button>
                 <button type="button" class="btn btn-secundario" id="btn-cancelar-edicion" hidden>Cancelar</button>

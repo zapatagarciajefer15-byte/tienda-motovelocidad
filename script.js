@@ -4,8 +4,12 @@ const STORAGE = {
   usuarios: 'velorace_usuarios',
   sesion: 'velorace_sesion',
   productos: 'velorace_productos',
+  productosVersion: 'velorace_productos_version',
   carrito: 'velorace_carrito'
 };
+
+/** Al cambiar el catálogo inicial, sube este número para recargar productos guardados */
+const VERSION_CATALOGO = '3-imagenes-locales';
 
 const CATEGORIAS = {
   cascos: 'Cascos',
@@ -25,64 +29,56 @@ const ICONOS_CATEGORIA = {
   calzado: '👟'
 };
 
+/** Carpeta junto a index.html donde guardas las fotos descargadas */
+const CARPETA_IMAGENES = 'imagenes';
+
 const PRODUCTOS_INICIALES = [
   {
     id: 'p1',
-    nombre: 'Casco Aero Track UCI',
-    descripcion: 'Casco de pista homologado UCI con aerodinámica optimizada para 200m y 500m.',
-    precio: 349.99,
-    stock: 15,
+    nombre: 'Casco KYT KX-1 Race GP',
+    descripcion:
+      'Casco de competición KYT KX-1 Race GP. Aerodinámica de pista, visor amplio y construcción ligera para alto rendimiento.',
+    precio: 850000,
+    stock: 12,
     categoria: 'cascos',
-    imagen: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
-    imagenes: [
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop'
-    ]
+    imagen: 'imagenes/KYT KX-1 Race GP.jpg',
+    imagenes: ['imagenes/KYT KX-1 Race GP.jpg', 'imagenes/KYT KX-1 Race GP2.jpg']
   },
   {
     id: 'p2',
-    nombre: 'Traje de piel Sprint Pro',
-    descripcion: 'Traje de piel elástico para competición en velódromo, costuras reforzadas.',
-    precio: 589.0,
+    nombre: 'Equipo Pista GP',
+    descripcion:
+      'Línea Pista GP para competición. Diseño orientado a pista con enfoque en rendimiento y protección en curvas cerradas.',
+    precio: 1200000,
     stock: 8,
     categoria: 'trajes',
-    imagen: 'https://images.unsplash.com/photo-1517649763962-0c62306601b7?w=400&h=300&fit=crop'
+    imagen: 'imagenes/PISTA GP.jpg.webp',
+    imagenes: ['imagenes/PISTA GP.jpg.webp', 'imagenes/PISTA GP2.jpg']
   },
   {
     id: 'p3',
-    nombre: 'Bicicleta Pista Carbono 48',
-    descripcion: 'Cuadro de carbono rígido, geometría agresiva para sprint y persecución.',
-    precio: 4299.0,
-    stock: 3,
-    categoria: 'bicicletas',
-    imagen: 'https://images.unsplash.com/photo-1485965120188-e220f721d03e?w=400&h=300&fit=crop'
+    nombre: 'Guantes Alpinestars',
+    descripcion:
+      'Guantes Alpinestars con excelente agarre, protección en nudillos y sensibilidad para control fino en manillar de pista.',
+    precio: 180000,
+    stock: 25,
+    categoria: 'accesorios',
+    imagen: 'imagenes/guantes alpinestar.jpg',
+    imagenes: ['imagenes/guantes alpinestar.jpg', 'imagenes/guantes aplinestar2.jpg']
   },
   {
     id: 'p4',
-    nombre: 'Rueda Disco Delantera 5 radios',
-    descripcion: 'Rueda de disco de fibra de carbono para máxima rigidez lateral en curvas.',
-    precio: 1299.0,
-    stock: 6,
-    categoria: 'componentes',
-    imagen: 'https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'p5',
-    nombre: 'Guantes Track Grip',
-    descripcion: 'Guantes sin dedos con agarre antideslizante para manillar de pista.',
-    precio: 45.99,
-    stock: 40,
-    categoria: 'accesorios',
-    imagen: 'https://images.unsplash.com/photo-1571907480492-451b9fce5965?w=400&h=300&fit=crop'
-  },
-  {
-    id: 'p6',
-    nombre: 'Zapatillas SPD Pista',
-    descripcion: 'Suela rígida de carbono, cierre BOA, compatible con pedales SPD-SL.',
-    precio: 279.0,
-    stock: 12,
+    nombre: 'Botas Alpinestars Supertech R',
+    descripcion:
+      'Botas ventiladas Supertech R. Protección lateral, ventilación y suela rígida para pilotaje en pista y velocidad.',
+    precio: 950000,
+    stock: 10,
     categoria: 'calzado',
-    imagen: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop'
+    imagen: 'imagenes/Botas ventiladas Supertech R.jpg',
+    imagenes: [
+      'imagenes/Botas ventiladas Supertech R.jpg',
+      'imagenes/Botas ventiladas Supertech R2.jpg'
+    ]
   }
 ];
 
@@ -108,15 +104,46 @@ function formatearPrecio(n) {
   }).format(valor);
 }
 
+function normalizarRutaImagen(ruta) {
+  if (!ruta || typeof ruta !== 'string') return '';
+  let s = ruta.trim().replace(/\\/g, '/');
+  if (!s) return '';
+  if (/^(https?:|data:)/i.test(s)) return s;
+  s = s.replace(/^\.\//, '');
+  if (!s.startsWith(`${CARPETA_IMAGENES}/`) && !s.includes('/')) {
+    s = `${CARPETA_IMAGENES}/${s}`;
+  }
+  return s;
+}
+
+/** Codifica espacios y caracteres especiales en rutas locales (necesario para nombres con espacios) */
+function urlImagenParaSrc(ruta) {
+  const r = normalizarRutaImagen(ruta);
+  if (!r) return '';
+  if (/^(https?:|data:)/i.test(r)) return r;
+  return r
+    .split('/')
+    .map((segment) => encodeURIComponent(segment))
+    .join('/');
+}
+
+function parseImagenesDesdeCampo(texto) {
+  if (!texto || !String(texto).trim()) return [];
+  return String(texto)
+    .split(',')
+    .map((parte) => normalizarRutaImagen(parte))
+    .filter(Boolean);
+}
+
 function obtenerImagenesProducto(producto) {
   if (!producto) return [];
+  let lista = [];
   if (Array.isArray(producto.imagenes)) {
-    return producto.imagenes.map((u) => String(u).trim()).filter(Boolean);
+    lista = producto.imagenes.map((u) => String(u).trim()).filter(Boolean);
+  } else if (typeof producto.imagen === 'string' && producto.imagen.trim()) {
+    lista = [producto.imagen.trim()];
   }
-  if (typeof producto.imagen === 'string' && producto.imagen.trim()) {
-    return [producto.imagen.trim()];
-  }
-  return [];
+  return lista.map(normalizarRutaImagen).filter(Boolean);
 }
 
 function obtenerUsuarios() {
@@ -139,9 +166,11 @@ function guardarUsuarios(usuarios) {
 }
 
 function obtenerProductos() {
+  const version = localStorage.getItem(STORAGE.productosVersion);
   const data = localStorage.getItem(STORAGE.productos);
   if (data) return JSON.parse(data);
   localStorage.setItem(STORAGE.productos, JSON.stringify(PRODUCTOS_INICIALES));
+  localStorage.setItem(STORAGE.productosVersion, VERSION_CATALOGO);
   return [...PRODUCTOS_INICIALES];
 }
 
@@ -261,7 +290,7 @@ function crearTarjetaProducto(producto) {
   const icono = ICONOS_CATEGORIA[producto.categoria] || '🏁';
   const imagenes = obtenerImagenesProducto(producto);
   const imgHtml = imagenes[0]
-    ? `<img src="${imagenes[0]}" alt="${producto.nombre}" loading="lazy">`
+    ? `<img src="${urlImagenParaSrc(imagenes[0])}" alt="${producto.nombre}" loading="lazy">`
     : `<span class="placeholder">${icono}</span>`;
   const sinStock = producto.stock <= 0;
   return `
@@ -351,7 +380,7 @@ function abrirModalProducto(producto) {
   const thumbs = document.getElementById('modal-producto-thumbs');
 
   const imagenPrincipal = imagenes[0] || '';
-  principal.src = imagenPrincipal;
+  principal.src = urlImagenParaSrc(imagenPrincipal);
 
   if (imagenes.length > 0) {
     sinImagen.hidden = true;
@@ -370,7 +399,7 @@ function abrirModalProducto(producto) {
       .map(
         (url, idx) => `
           <button type="button" class="thumb-btn ${idx === 0 ? 'activa' : ''}" data-index="${idx}">
-            <img src="${url}" alt="${producto.nombre}">
+            <img src="${urlImagenParaSrc(url)}" alt="${producto.nombre}">
           </button>
         `
       )
@@ -379,7 +408,7 @@ function abrirModalProducto(producto) {
     thumbs.querySelectorAll('.thumb-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const idx = Number(btn.dataset.index);
-        principal.src = imagenes[idx] || '';
+        principal.src = urlImagenParaSrc(imagenes[idx] || '');
         thumbs.querySelectorAll('.thumb-btn').forEach((b) => {
           b.classList.toggle('activa', b === btn);
         });
@@ -480,7 +509,7 @@ function renderizarCarrito() {
       const icono = ICONOS_CATEGORIA[producto.categoria] || '🏁';
       const imagenesProducto = obtenerImagenesProducto(producto);
       const imgHtml = imagenesProducto[0]
-        ? `<img src="${imagenesProducto[0]}" alt="">`
+        ? `<img src="${urlImagenParaSrc(imagenesProducto[0])}" alt="">`
         : icono;
       return `
         <div class="item-carrito" data-id="${producto.id}">
@@ -533,10 +562,7 @@ function procesarCheckout() {
 function guardarProducto(e) {
   e.preventDefault();
   const id = document.getElementById('producto-id').value;
-  const rawImagenes = document.getElementById('prod-imagen').value.trim();
-  const imagenes = rawImagenes
-    ? rawImagenes.split(',').map((s) => s.trim()).filter(Boolean)
-    : [];
+  const imagenes = parseImagenesDesdeCampo(document.getElementById('prod-imagen').value);
   const datos = {
     nombre: document.getElementById('prod-nombre').value.trim(),
     descripcion: document.getElementById('prod-descripcion').value.trim(),

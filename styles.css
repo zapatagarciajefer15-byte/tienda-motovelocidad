@@ -801,6 +801,21 @@ body {
   resize: vertical;
 }
 
+.campo-ayuda {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  margin: -0.5rem 0 1rem;
+  line-height: 1.45;
+}
+
+.campo-ayuda code {
+  background: var(--fondo-elevado);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  color: var(--admin);
+  font-size: 0.9em;
+}
+
 .form-fila {
   display: grid;
   grid-template-columns: 1fr 1fr;
