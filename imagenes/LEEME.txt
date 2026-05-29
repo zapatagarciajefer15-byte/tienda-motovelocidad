@@ -1,21 +1,19 @@
-Carpeta de imágenes de VeloRace
-================================
+Imágenes de VeloRace — solo documentación
+=========================================
 
-Coloca aquí las fotos que descargues (JPG, PNG o WEBP).
+Este archivo NO lo usa la página web. No genera errores en script.js.
+Las fotos se cargan desde las rutas en script.js (PRODUCTOS_INICIALES).
 
-Ejemplos de nombres sugeridos para los productos demo:
-  casco.jpg
-  traje.jpg
-  bicicleta.jpg
-  rueda.jpg
-  guantes.jpg
-  zapatillas.jpg
+Archivos de imagen en esta carpeta:
 
-En el panel de administración puedes escribir solo el nombre:
-  casco.jpg
+  KYT KX-1 Race GP.jpg
+  KYT KX-1 Race GP2.jpg
+  PISTA GP.jpg.webp
+  PISTA GP2.jpg
+  guantes alpinestar.jpg
+  guantes aplinestar2.jpg
+  Botas ventiladas Supertech R.jpg
+  Botas ventiladas Supertech R2.jpg
 
-O la ruta completa:
-  imagenes/casco.jpg
-
-Varias fotos del mismo producto (separadas por coma):
-  casco.jpg, casco-lateral.jpg, casco-detalle.jpg
+En Administración puedes usar, por ejemplo:
+  KYT KX-1 Race GP.jpg, KYT KX-1 Race GP2.jpg

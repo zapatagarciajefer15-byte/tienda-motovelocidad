@@ -131,9 +131,9 @@
           <div id="lista-carrito" class="lista-carrito"></div>
           <aside class="carrito-resumen">
             <h3>Resumen</h3>
-            <div class="resumen-linea"><span>Subtotal</span><span id="carrito-subtotal">$0.00</span></div>
-            <div class="resumen-linea"><span>Envío</span><span id="carrito-envio">$0.00</span></div>
-            <div class="resumen-linea total"><span>Total</span><span id="carrito-total">$0.00</span></div>
+            <div class="resumen-linea"><span>Subtotal</span><span id="carrito-subtotal">$0</span></div>
+            <div class="resumen-linea"><span>Envío</span><span id="carrito-envio">$0</span></div>
+            <div class="resumen-linea total"><span>Total</span><span id="carrito-total">$0</span></div>
             <button type="button" id="btn-checkout" class="btn btn-primario btn-block">Proceder al pago</button>
             <p class="nota-checkout">* Simulación de compra — sin pago real</p>
           </aside>
@@ -174,8 +174,13 @@
                 <option value="accesorios">Accesorios</option>
                 <option value="calzado">Calzado</option>
               </select>
-              <label for="prod-imagen">URL de imagen(es) (opcional; separa con coma)</label>
-              <input type="text" id="prod-imagen" placeholder="https://... , https://...">
+              <label for="prod-imagen">Imágenes locales (carpeta <code>imagenes/</code>)</label>
+              <input type="text" id="prod-imagen" placeholder="KYT KX-1 Race GP.jpg , KYT KX-1 Race GP2.jpg">
+              <p class="campo-ayuda">
+                Guarda las fotos en <code>imagenes/</code>. Escribe el nombre del archivo (varios separados por coma).
+                Ejemplo: <code>KYT KX-1 Race GP.jpg, KYT KX-1 Race GP2.jpg</code>.
+                El archivo <code>LEEME.txt</code> es solo ayuda; la web no lo carga.
+              </p>
               <div class="form-acciones">
                 <button type="submit" class="btn btn-primario" id="btn-guardar-producto">Guardar producto</button>
                 <button type="button" class="btn btn-secundario" id="btn-cancelar-edicion" hidden>Cancelar</button>
@@ -234,7 +239,7 @@
       <p id="modal-producto-descripcion" class="producto-descripcion"></p>
 
       <div class="producto-meta">
-        <div class="resumen-linea"><span>Precio</span><span id="modal-producto-precio">$0.00</span></div>
+        <div class="resumen-linea"><span>Precio</span><span id="modal-producto-precio">$0</span></div>
         <div class="resumen-linea"><span>Stock</span><span id="modal-producto-stock">0</span></div>
       </div>
 
