@@ -168,7 +168,13 @@ function guardarUsuarios(usuarios) {
 function obtenerProductos() {
   const version = localStorage.getItem(STORAGE.productosVersion);
   const data = localStorage.getItem(STORAGE.productos);
-  if (data) return JSON.parse(data);
+  if (data && version === VERSION_CATALOGO) {
+    try {
+      return JSON.parse(data);
+    } catch {
+      /* catálogo corrupto: se regenera abajo */
+    }
+  }
   localStorage.setItem(STORAGE.productos, JSON.stringify(PRODUCTOS_INICIALES));
   localStorage.setItem(STORAGE.productosVersion, VERSION_CATALOGO);
   return [...PRODUCTOS_INICIALES];
@@ -176,6 +182,7 @@ function obtenerProductos() {
 
 function guardarProductos(productos) {
   localStorage.setItem(STORAGE.productos, JSON.stringify(productos));
+  localStorage.setItem(STORAGE.productosVersion, VERSION_CATALOGO);
 }
 
 function obtenerCarrito() {

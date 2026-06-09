@@ -131,9 +131,9 @@
           <div id="lista-carrito" class="lista-carrito"></div>
           <aside class="carrito-resumen">
             <h3>Resumen</h3>
-            <div class="resumen-linea"><span>Subtotal</span><span id="carrito-subtotal">$0.00</span></div>
-            <div class="resumen-linea"><span>Envío</span><span id="carrito-envio">$0.00</span></div>
-            <div class="resumen-linea total"><span>Total</span><span id="carrito-total">$0.00</span></div>
+            <div class="resumen-linea"><span>Subtotal</span><span id="carrito-subtotal">$0</span></div>
+            <div class="resumen-linea"><span>Envío</span><span id="carrito-envio">$0</span></div>
+            <div class="resumen-linea total"><span>Total</span><span id="carrito-total">$0</span></div>
             <button type="button" id="btn-checkout" class="btn btn-primario btn-block">Proceder al pago</button>
             <p class="nota-checkout">* Simulación de compra — sin pago real</p>
           </aside>
@@ -175,11 +175,11 @@
                 <option value="calzado">Calzado</option>
               </select>
               <label for="prod-imagen">Imágenes locales (carpeta <code>imagenes/</code>)</label>
-              <input type="text" id="prod-imagen" placeholder="casco.jpg , casco-lateral.jpg">
+              <input type="text" id="prod-imagen" placeholder="KYT KX-1 Race GP.jpg , KYT KX-1 Race GP2.jpg">
               <p class="campo-ayuda">
                 Descarga las fotos y guárdalas en la carpeta <code>imagenes/</code> de este proyecto.
-                Escribe el nombre del archivo o varios separados por coma. Ejemplo: <code>casco.jpg</code> o
-                <code>imagenes/casco.jpg, imagenes/casco-2.jpg</code>
+                Escribe el nombre del archivo o varios separados por coma. Ejemplo: <code>KYT KX-1 Race GP.jpg</code> o
+                <code>imagenes/KYT KX-1 Race GP.jpg, imagenes/KYT KX-1 Race GP2.jpg</code>
               </p>
               <div class="form-acciones">
                 <button type="submit" class="btn btn-primario" id="btn-guardar-producto">Guardar producto</button>
@@ -239,7 +239,7 @@
       <p id="modal-producto-descripcion" class="producto-descripcion"></p>
 
       <div class="producto-meta">
-        <div class="resumen-linea"><span>Precio</span><span id="modal-producto-precio">$0.00</span></div>
+        <div class="resumen-linea"><span>Precio</span><span id="modal-producto-precio">$0</span></div>
         <div class="resumen-linea"><span>Stock</span><span id="modal-producto-stock">0</span></div>
       </div>
 
