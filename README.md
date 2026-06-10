@@ -56,7 +56,7 @@ velorace/
 1. Clonar el repositorio**
 
    bash
-   git clone https://github.com/TU-USUARIO/velorace.git
+   git clone https://github.com/zapatagarciajefer15-byte/velorace.git
    
 
 3. Acceder al directorio**
